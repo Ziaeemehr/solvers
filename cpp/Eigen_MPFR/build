@@ -1,0 +1,2 @@
+g++ example1.cpp -lmpfr -lgmp
+./a.out

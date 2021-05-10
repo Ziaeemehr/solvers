@@ -3,9 +3,13 @@
 #include <string>
 #include <vector>
 #include <Eigen/Dense>
+#include <Eigen/Sparse>
+
 
 using namespace std;
 using namespace Eigen;
+
+// typedef Eigen::Matrix<long double, Eigen::Dynamic, Eigen::Dynamic>  MatrixHd;
 
 #define MAXBUFSIZE ((int)1e6)
 
@@ -93,4 +97,24 @@ double cond_number(const MatrixXd &A)
                   svd.singularValues()(svd.singularValues().size() - 1);
 
     return cond;
+}
+
+MatrixXd hilbert_matrix(const int size)
+{
+    MatrixXd A = MatrixXd::Zero(size, size);
+    for (int i = 1; i < size + 1; ++i)
+        for (int j = 1; j < size + 1; ++j)
+            A(i - 1, j - 1) = 1. / (i + j - 1.);
+
+    return A;
+}
+
+SparseMatrix<double> hilbert_matrixS(const int size)
+{
+    MatrixXd A = MatrixXd::Zero(size, size);
+    for (int i = 1; i < size + 1; ++i)
+        for (int j = 1; j < size + 1; ++j)
+            A(i - 1, j - 1) = 1. / (i + j - 1.);
+    
+    return A.sparseView();
 }
