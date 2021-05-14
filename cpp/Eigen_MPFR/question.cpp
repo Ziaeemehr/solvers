@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 
     const int nn = 20;
     constexpr int maxiter = 2000;
-    constexpr int num_decimal = 30;
+    constexpr int num_decimal = 70;
     mpfr::mpreal::set_default_prec(mpfr::digits2bits(num_decimal));
 
     for (int n = 4; n < nn; ++n)
@@ -43,8 +43,8 @@ int main(int argc, char *argv[])
 
         VectorXmp b = A * x;
         BiCGSTAB<SparseMatrix<mpreal, Eigen::RowMajor>> solver(A);
-        solver.setTolerance(1e-60);
-        // solver.setMaxIterations(maxiter);
+        solver.setTolerance(1e-30);
+        solver.setMaxIterations(maxiter);
         solver.compute(A);
         VectorXmp xx = solver.solve(b);
         printf("# it: %5ld, est err: %45.16e ", solver.iterations(), solver.error().toDouble());
